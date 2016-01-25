@@ -12,6 +12,8 @@ int *pc, *bp, *s, ax, sycle;
 enum{LEA, IMM, JMP ,CALL ,JZ, JNZ,ENT,ADJ,LEV,LI ,LC,SI ,SC,PUSH,
 		OR,XOR,AND,EQ,NE,LT,GT,LE,GE,SHL,SHR,ADD,SUB,MUL,DIV,MOD,
 		OPEN,READ,CLOS,PRTF,MALC,MSET,MCMP,EXIT};
+
+void eval();
 int main()
 {
 
@@ -41,4 +43,17 @@ int main()
 	bp = sp = (int*)((int) stack + poolsize);
 	ax = 0;
 
+}
+
+void eval()
+{
+	int op,*tmp;
+	while(1)
+	{
+		if(op == IMM) {ax = *pc++;}                    //IMM<num> ：把num放入寄存器ax中
+		else if(op == LC) {ax = *(char *)ax;}          //将对应地址中的字符载入ax中，要求ax中存放地址
+		else if(op == LI) {ax = *(int *)ax;}           //将对应地址中的整数载入ax中，要求ax中存放地址
+		else if(op == SC) {ax = *(char *)*sp++ = ax;}  //SC将ax中的数据作为字符存放到地址中，要求栈顶存放地址
+		else if(op == SI) {*(int *)*sp++ = ax;}        //SI将ax中的数据作为证书存放到地址中，要求栈顶存放地址
+	}
 }
